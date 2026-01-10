@@ -1,0 +1,16 @@
+[
+  {
+    "id": 2,
+    "createdAt": "2022-11-30T09:16:32.123456",
+    "userId": 2,
+    "balance": "2000.00",
+    "currency": "IRR"
+  },
+  {
+    "id": 6,
+    "createdAt": "2020-10-16T07:01:44.123456",
+    "userId": 2,
+    "balance": "2000.00",
+    "currency": "INR"
+  }
+]

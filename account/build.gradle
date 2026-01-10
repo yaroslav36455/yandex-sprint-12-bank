@@ -1,0 +1,51 @@
+plugins {
+    id "java"
+    id "org.springframework.boot"
+    id "io.spring.dependency-management"
+    id "org.springframework.cloud.contract"
+    id "maven-publish"
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+    implementation 'org.liquibase:liquibase-core'
+    runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:r2dbc-postgresql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+    testImplementation 'org.testcontainers:r2dbc'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    contractTestImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+    testImplementation 'io.rest-assured:spring-web-test-client'
+    testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+}
+
+contracts {
+    contractsDslDir = file("src/contractTest/resources/contracts")
+    testMode = 'WEBTESTCLIENT'
+    baseClassForTests = "by.tyv.account.BaseContractTest"
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            from components.java
+            // прикрепляем stubs-jar, у задачи уже есть classifier 'stubs'
+            artifact tasks.named("verifierStubsJar")
+        }
+    }
+}
+
+tasks.named("test") {
+    dependsOn(":notification:publishToMavenLocal")
+}
+
+tasks.named("check") { dependsOn("contractTest") }
+tasks.named("verifierStubsJar") { dependsOn("contractTest") }
+tasks.named("publishToMavenLocal") { dependsOn("verifierStubsJar") }

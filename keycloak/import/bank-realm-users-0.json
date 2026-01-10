@@ -1,0 +1,35 @@
+{
+  "realm" : "bank-realm",
+  "users" : [ {
+    "id" : "ad327d3a-7526-4792-ac94-da0ef04300d7",
+    "username" : "service-account-service-client-id",
+    "emailVerified" : false,
+    "enabled" : true,
+    "createdTimestamp" : 1763302372800,
+    "totp" : false,
+    "serviceAccountClientId" : "service-client-id",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-bank-realm" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "9a8c066c-e1ec-4237-b80d-89711822c35b",
+    "username" : "service-account-user-management-client-id",
+    "emailVerified" : false,
+    "enabled" : true,
+    "createdTimestamp" : 1763301624983,
+    "totp" : false,
+    "serviceAccountClientId" : "user-management-client-id",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-bank-realm" ],
+    "clientRoles" : {
+      "realm-management" : [ "manage-users", "view-users", "query-users" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

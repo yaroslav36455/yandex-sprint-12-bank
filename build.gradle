@@ -1,0 +1,67 @@
+plugins {
+    id 'org.springframework.boot' apply false
+    id 'io.spring.dependency-management' apply false
+}
+
+ext {
+    springBootVersion = '3.5.4'
+    springCloudVersion = '2025.0.0'
+    lombokVersion = '1.18.34'
+    mapstructVersion = '1.6.3'
+}
+
+subprojects {
+    apply plugin : "java"
+    apply plugin : "io.spring.dependency-management"
+
+    group = 'by.tyv'
+    version = '1.0.0'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    dependencies {
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+        testImplementation 'org.springframework.security:spring-security-test'
+        testImplementation 'io.projectreactor:reactor-test'
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    }
+
+    configurations.configureEach {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+tasks.register("test") {
+    dependsOn(
+            ":exchange:publishToMavenLocal",
+            ":blocker:publishToMavenLocal",
+            ":account:publishToMavenLocal",
+            ":notification:publishToMavenLocal",
+            ":transfer:publishToMavenLocal"
+    )
+}

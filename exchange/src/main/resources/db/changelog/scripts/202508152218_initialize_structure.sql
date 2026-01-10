@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS exchange_rate (
+    id   BIGSERIAL PRIMARY KEY,
+    code VARCHAR(3)     NOT NULL UNIQUE,
+    rate NUMERIC(10, 2) NOT NULL
+);

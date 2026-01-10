@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: blocker
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "createdAt": "2000-01-01T05:12:59.567344",
+    "login": "SourceLogin",
+    "name": "Maria",
+    "birthDate": "1991-11-11"
+  },
+  {
+    "id": 2,
+    "createdAt": "1999-12-09T17:09:15.847234",
+    "login": "TargetLogin",
+    "name": "Andrew",
+    "birthDate": "2000-02-02"
+  },
+  {
+    "id": 3,
+    "createdAt": "2018-11-16T22:45:03.656234",
+    "login": "SomeLogin",
+    "name": "Zlata",
+    "birthDate": "2005-12-08"
+  }
+]

@@ -1,0 +1,75 @@
+apiVersion: v2
+name: bank-chart
+description: A Helm chart for Kubernetes
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "1.0.0"
+
+
+dependencies:
+  - name: account
+    version: "1.0.0"
+    repository: "file://charts/account"
+  - name: blocker
+    version: "1.0.0"
+    repository: "file://charts/blocker"
+  - name: cash
+    version: "1.0.0"
+    repository: "file://charts/cash"
+  - name: exchange
+    version: "1.0.0"
+    repository: "file://charts/exchange"
+  - name: exchange-generator
+    version: "1.0.0"
+    repository: "file://charts/exchange-generator"
+  - name: front-ui
+    version: "1.0.0"
+    repository: "file://charts/front-ui"
+  - name: gateway
+    version: "1.0.0"
+    repository: "file://charts/gateway"
+  - name: notification
+    version: "1.0.0"
+    repository: "file://charts/notification"
+  - name: transfer
+    version: "1.0.0"
+    repository: "file://charts/transfer"
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: "18.2.0"
+    alias: account-postgres
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: "18.2.0"
+    alias: cash-postgres
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: "18.2.0"
+    alias: transfer-postgres
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: "18.2.0"
+    alias: exchange-postgres
+  - name: keycloak
+    repository: https://charts.bitnami.com/bitnami
+    version: "25.2.0"
+    alias: keycloak
+

@@ -1,0 +1,1 @@
+TRUNCATE TABLE deferred_notification RESTART IDENTITY;

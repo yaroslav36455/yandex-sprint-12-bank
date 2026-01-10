@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: front-ui
+  security:
+    oauth2:
+      client:
+        registration:
+          bank-services-cc:
+            provider: keycloak
+            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID}
+            client-secret: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            token-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs
+
+
+clients:
+  account-service:
+    url: "http://yandex-sprint-11-account:8080"
+  transfer-service:
+    url: "http://yandex-sprint-11-transfer:8080"
+  cash-service:
+    url: "http://yandex-sprint-11-cash:8080"
+
+
+logging:
+  level:
+    org.springframework.web.reactive.result.method.annotation: DEBUG

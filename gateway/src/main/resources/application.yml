@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: yandex-sprint-11-front-ui-get-id
+              uri: http://yandex-sprint-11-front-ui:8080
+              predicates:
+                - Method=GET
+                - Path=/, /main, /signup, /logout
+            - id: yandex-sprint-11-front-ui-post-id
+              uri: http://yandex-sprint-11-front-ui:8080
+              predicates:
+                - Method=POST
+                - Path=/signup,/user/**
+            - id: yandex-sprint-11-exchange-api-rates
+              uri: http://yandex-sprint-11-exchange:8080
+              predicates:
+                - Method=GET
+                - Path=/api/rates
+          default-filters:
+            - TokenRelay
+            - RemoveResponseHeader=Set-Cookie
+  security:
+    oauth2:
+      client:
+        registration:
+          bank-services-cc:
+            provider: keycloak
+            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID}
+            client-secret: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+          user-token-ac:
+            provider: keycloak
+            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_USER_CLIENT_ID}
+            authorization-grant-type: authorization_code
+            scope: openid,profile,user
+            redirect-uri: "http://gateway.local/login/oauth2/code/{registrationId}"
+        provider:
+          keycloak:
+            authorization-uri: http://keycloak.local/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/auth
+            token-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/token
+            jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs
+      resourceserver:
+        jwt:
+          issuer-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}
+
+server:
+  port: 9090

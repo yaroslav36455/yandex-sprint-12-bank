@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: initialize-structure
+      author: yaroslav.tarasenko
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            path: db/changelog/scripts/202509281619_initialize_structure.sql
+      rollback:
+        - sqlFile:
+            path: db/changelog/scripts/202509281619_initialize_structure_rollback.sql

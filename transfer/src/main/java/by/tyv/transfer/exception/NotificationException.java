@@ -1,0 +1,7 @@
+package by.tyv.transfer.exception;
+
+public class NotificationException extends RuntimeException {
+    public NotificationException(String message) {
+        super(message);
+    }
+}

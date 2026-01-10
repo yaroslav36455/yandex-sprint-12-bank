@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: cash
+  r2dbc:
+    url: r2dbc:postgresql://yandex-sprint-11-cash-postgres:${YANDEX_SPRINT_11_CASH_POSTGRES_DB_PORT}/${YANDEX_SPRINT_11_CASH_POSTGRES_DB_NAME}
+    username: ${YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_NAME}
+    password: ${YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_PASSWORD}
+    pool:
+      enabled: true                               # Включение пула соединений
+      initial-size: 10                            # Начальное количество соединений в пуле
+      max-size: 50                                # Максимальное количество соединений
+      max-idle-time: 30s                          # Время бездействия соединения перед закрытием
+      max-life-time: 10m                          # Максимальное время жизни соединения
+      validation-query: SELECT 1                  # SQL-запрос для проверки работоспособности соединения
+  liquibase:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://yandex-sprint-11-cash-postgres:${YANDEX_SPRINT_11_CASH_POSTGRES_DB_PORT}/${YANDEX_SPRINT_11_CASH_POSTGRES_DB_NAME}
+    user: ${YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_NAME}
+    password: ${YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_PASSWORD}
+    contexts: default
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  security:
+    oauth2:
+      client:
+        registration:
+          bank-services-cc:
+            provider: keycloak
+            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID}
+            client-secret: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+        provider:
+          keycloak:
+            token-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/token
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs
+
+
+clients:
+  blocker-service:
+    url: "http://yandex-sprint-11-blocker:8080"
+  account-service:
+    url: "http://yandex-sprint-11-account:8080"
+  notification-service:
+    url: "http://yandex-sprint-11-notification:8080"
+
+
+application:
+  scheduling:
+    enable: true
+    notification-delay: 3000
+  r2dbc:
+    auditing:
+      enable: true
