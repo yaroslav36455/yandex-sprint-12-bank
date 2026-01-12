@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-kafka-topics
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: kafka-topics
+          image: docker.io/bitnamilegacy/kafka@sha256:f45d5b813412e1ef7ce67b467309a84e4c6dc03d7626a0b6da867db9b69bd107
+          command: ["/bin/bash", "-lc"]
+          args:
+            - |
+              set -e
+              /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server bank-dev-kafka:9092 --create --if-not-exists \
+                --topic notification_topic --partitions 1 --replication-factor 1
+              /opt/bitnami/kafka/bin/kafka-topics.sh --bootstrap-server bank-dev-kafka:9092 --create --if-not-exists \
+                --topic notification_topic.dlq --partitions 1 --replication-factor 1

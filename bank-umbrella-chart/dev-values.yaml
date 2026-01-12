@@ -3,6 +3,9 @@ global:
     internalUrl: "http://keycloak"
     port: "8080"
     realm: "bank-realm"
+  kafka:
+    bootstrapServers: "bank-dev-kafka:9092"
+
 
 account-postgres:
   image:
@@ -44,6 +47,23 @@ transfer-postgres:
     password: pass
     database: db_transfer
 
+kafka:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/kafka
+    tag: "latest"
+    digest: "sha256:f45d5b813412e1ef7ce67b467309a84e4c6dc03d7626a0b6da867db9b69bd107"
+  auth:
+    enabled: false
+  listeners:
+    client:
+      protocol: PLAINTEXT
+    controller:
+      protocol: PLAINTEXT
+    interbroker:
+      protocol: PLAINTEXT
+    sasl:
+      enabledMechanisms: ""
 
 keycloak:
   postgresql:

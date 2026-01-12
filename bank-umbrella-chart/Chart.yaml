@@ -72,4 +72,8 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: "25.2.0"
     alias: keycloak
+  - name: kafka
+    repository: https://charts.bitnami.com/bitnami
+    version: "32.4.3"
+    alias: kafka
 

@@ -30,19 +30,14 @@ public abstract class SpringBootIntegrationTest {
     ReactiveOAuth2AuthorizedClientService authorizedClientService;
 
 
-    protected static WireMockServer wireMockServerNotification = new WireMockServer(
-            WireMockConfiguration.options().dynamicPort()
-    );
     protected static WireMockServer wireMockServerKeycloak = new WireMockServer(
             WireMockConfiguration.options().dynamicPort()
     );
 
     static {
-        wireMockServerNotification.start();
         wireMockServerKeycloak.start();
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            wireMockServerNotification.stop();
             wireMockServerKeycloak.stop();
         }));
     }
@@ -54,13 +49,11 @@ public abstract class SpringBootIntegrationTest {
 
     @AfterEach
     public void cleanUp() {
-        wireMockServerNotification.resetAll();
         wireMockServerKeycloak.resetAll();
     }
 
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry registry) {
-        registry.add("clients.notification-service.url", () -> wireMockServerNotification.baseUrl());
         registry.add("clients.keycloak.url", () -> wireMockServerKeycloak.baseUrl());
         registry.add("spring.security.oauth2.client.provider.keycloak.token-uri",
                 () -> wireMockServerKeycloak.baseUrl() + "/realms/test-realm/protocol/openid-connect/token");

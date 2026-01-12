@@ -36,6 +36,20 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:9999/.well-known/jwks.json
+  kafka:
+    bootstrap-servers: bank-dev-kafka:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        enable.idempotence: true
+        acks: all
+        retries: 10
+        delivery.timeout.ms: 120000
+        request.timeout.ms: 30000
+        spring.json.add.type.headers: false
+        max.block.ms: 10000
+
 
 testcontainers:
   postgres:
@@ -57,4 +71,5 @@ logging:
 
 clients:
   keycloak:
+    url: "http://yandex-sprint-11-keycloak:8080"
     realm: "test-realm"

@@ -6,3 +6,21 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs
+  kafka:
+    bootstrap-servers: bank-dev-kafka:9092
+    consumer:
+      group-id: yandex-practicum-consumer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: by.tyv.notification.model.dto
+        spring.json.value.default.type: by.tyv.notification.model.dto.NotificationDto
+        spring.json.use.type.headers: false
+
+
+kafka:
+  retries: 5
+  backoff:
+    initial: 500
+    multiplier: 2.0
+    max: 10000

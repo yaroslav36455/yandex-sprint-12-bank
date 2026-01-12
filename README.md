@@ -20,6 +20,7 @@
 #### Приложение работает в Docker контейнерах следующих образов
 * yandex-sprint-11-gateway
 * yandex-sprint-11-keycloak
+* yandex-sprint-11-kafka
 * yandex-sprint-11-account
 * yandex-sprint-11-blocker
 * yandex-sprint-11-cash
