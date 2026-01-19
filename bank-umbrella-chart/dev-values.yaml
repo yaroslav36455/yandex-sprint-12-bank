@@ -11,7 +11,7 @@ account-postgres:
   image:
     tag: "latest"
     digest: "sha256:2a7dbbb704430870c9f4e76ccf2a532dd0c6be99774d0cb064e0e5b9c6889db1"
-  fullnameOverride: yandex-sprint-11-account-postgres
+  fullnameOverride: yandex-sprint-12-account-postgres
   auth:
     username: user
     password: pass
@@ -21,7 +21,7 @@ exchange-postgres:
   image:
     tag: "latest"
     digest: "sha256:2a7dbbb704430870c9f4e76ccf2a532dd0c6be99774d0cb064e0e5b9c6889db1"
-  fullnameOverride: yandex-sprint-11-exchange-postgres
+  fullnameOverride: yandex-sprint-12-exchange-postgres
   auth:
     username: user
     password: pass
@@ -31,7 +31,7 @@ cash-postgres:
   image:
     tag: "latest"
     digest: "sha256:2a7dbbb704430870c9f4e76ccf2a532dd0c6be99774d0cb064e0e5b9c6889db1"
-  fullnameOverride: yandex-sprint-11-cash-postgres
+  fullnameOverride: yandex-sprint-12-cash-postgres
   auth:
     username: user
     password: pass
@@ -41,7 +41,7 @@ transfer-postgres:
   image:
     tag: "latest"
     digest: "sha256:2a7dbbb704430870c9f4e76ccf2a532dd0c6be99774d0cb064e0e5b9c6889db1"
-  fullnameOverride: yandex-sprint-11-transfer-postgres
+  fullnameOverride: yandex-sprint-12-transfer-postgres
   auth:
     username: user
     password: pass
@@ -79,7 +79,7 @@ keycloak:
     repository: bitnamilegacy/keycloak
     tag: "26.3.3-debian-12-r0"
 
-  fullnameOverride: yandex-sprint-11-keycloak
+  fullnameOverride: yandex-sprint-12-keycloak
 
   auth:
     adminUser: admin
@@ -145,10 +145,10 @@ keycloak:
 
 
 account:
-  k8sName: yandex-sprint-11-account
+  k8sName: yandex-sprint-12-account
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-account
+    repository: yandex-sprint-12-account
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -161,19 +161,19 @@ account:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_PORT: "5432"
-    YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_NAME: "db_account"
-    YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_NAME: "user"
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
-    YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_ID: "user-management-client-id"
+    YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_PORT: "5432"
+    YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_NAME: "db_account"
+    YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_NAME: "user"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_ID: "user-management-client-id"
   secretEnv:
-    - name: YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_PASSWORD
-      secretKey: YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_PASSWORD
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-    - name: YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_PASSWORD
+      secretKey: YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_PASSWORD
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -181,10 +181,10 @@ account:
 
 
 blocker:
-  k8sName: yandex-sprint-11-blocker
+  k8sName: yandex-sprint-12-blocker
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-blocker
+    repository: yandex-sprint-12-blocker
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -197,7 +197,7 @@ blocker:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -205,10 +205,10 @@ blocker:
 
 
 cash:
-  k8sName: yandex-sprint-11-cash
+  k8sName: yandex-sprint-12-cash
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-cash
+    repository: yandex-sprint-12-cash
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -221,16 +221,16 @@ cash:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_CASH_POSTGRES_DB_PORT: "5432"
-    YANDEX_SPRINT_11_CASH_POSTGRES_DB_NAME: "db_cash"
-    YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_NAME: "user"
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_CASH_POSTGRES_DB_PORT: "5432"
+    YANDEX_SPRINT_12_CASH_POSTGRES_DB_NAME: "db_cash"
+    YANDEX_SPRINT_12_CASH_POSTGRES_DB_USER_NAME: "user"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
   secretEnv:
-    - name: YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_PASSWORD
-      secretKey: YANDEX_SPRINT_11_CASH_POSTGRES_DB_USER_PASSWORD
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_CASH_POSTGRES_DB_USER_PASSWORD
+      secretKey: YANDEX_SPRINT_12_CASH_POSTGRES_DB_USER_PASSWORD
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -238,10 +238,10 @@ cash:
 
 
 exchange:
-  k8sName: yandex-sprint-11-exchange
+  k8sName: yandex-sprint-12-exchange
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-exchange
+    repository: yandex-sprint-12-exchange
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -254,13 +254,13 @@ exchange:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_EXCHANGE_POSTGRES_DB_PORT: "5432"
-    YANDEX_SPRINT_11_EXCHANGE_POSTGRES_DB_NAME: "db_exchange"
-    YANDEX_SPRINT_11_EXCHANGE_POSTGRES_DB_USER_NAME: "user"
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_EXCHANGE_POSTGRES_DB_PORT: "5432"
+    YANDEX_SPRINT_12_EXCHANGE_POSTGRES_DB_NAME: "db_exchange"
+    YANDEX_SPRINT_12_EXCHANGE_POSTGRES_DB_USER_NAME: "user"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
   secretEnv:
-    - name: YANDEX_SPRINT_11_EXCHANGE_POSTGRES_DB_USER_PASSWORD
-      secretKey: YANDEX_SPRINT_11_EXCHANGE_POSTGRES_DB_USER_PASSWORD
+    - name: YANDEX_SPRINT_12_EXCHANGE_POSTGRES_DB_USER_PASSWORD
+      secretKey: YANDEX_SPRINT_12_EXCHANGE_POSTGRES_DB_USER_PASSWORD
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -268,10 +268,10 @@ exchange:
 
 
 exchange-generator:
-  k8sName: yandex-sprint-11-exchange-generator
+  k8sName: yandex-sprint-12-exchange-generator
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-exchange-generator
+    repository: yandex-sprint-12-exchange-generator
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -284,11 +284,11 @@ exchange-generator:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
   secretEnv:
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -296,10 +296,10 @@ exchange-generator:
 
 
 front-ui:
-  k8sName: yandex-sprint-11-front-ui
+  k8sName: yandex-sprint-12-front-ui
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-front-ui
+    repository: yandex-sprint-12-front-ui
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -312,11 +312,11 @@ front-ui:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
   secretEnv:
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -324,10 +324,10 @@ front-ui:
 
 
 gateway:
-  k8sName: yandex-sprint-11-gateway
+  k8sName: yandex-sprint-12-gateway
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-gateway
+    repository: yandex-sprint-12-gateway
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -340,12 +340,12 @@ gateway:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
-    YANDEX_SPRINT_11_KEYCLOAK_USER_CLIENT_ID: "user-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_USER_CLIENT_ID: "user-client-id"
   secretEnv:
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -353,10 +353,10 @@ gateway:
 
 
 notification:
-  k8sName: yandex-sprint-11-notification
+  k8sName: yandex-sprint-12-notification
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-notification
+    repository: yandex-sprint-12-notification
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -369,7 +369,7 @@ notification:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness
@@ -377,10 +377,10 @@ notification:
 
 
 transfer:
-  k8sName: yandex-sprint-11-transfer
+  k8sName: yandex-sprint-12-transfer
   replicaCount: 1
   image:
-    repository: yandex-sprint-11-transfer
+    repository: yandex-sprint-12-transfer
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   service:
@@ -393,16 +393,16 @@ transfer:
       cpu: "500m"
       memory: "512Mi"
   env:
-    YANDEX_SPRINT_11_TRANSFER_POSTGRES_DB_PORT: "5432"
-    YANDEX_SPRINT_11_TRANSFER_POSTGRES_DB_NAME: "db_transfer"
-    YANDEX_SPRINT_11_TRANSFER_POSTGRES_DB_USER_NAME: "user"
-    YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
-    YANDEX_SPRINT_11_KEYCLOAK_REALM: "bank-realm"
+    YANDEX_SPRINT_12_TRANSFER_POSTGRES_DB_PORT: "5432"
+    YANDEX_SPRINT_12_TRANSFER_POSTGRES_DB_NAME: "db_transfer"
+    YANDEX_SPRINT_12_TRANSFER_POSTGRES_DB_USER_NAME: "user"
+    YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID: "service-client-id"
+    YANDEX_SPRINT_12_KEYCLOAK_REALM: "bank-realm"
   secretEnv:
-    - name: YANDEX_SPRINT_11_TRANSFER_POSTGRES_DB_USER_PASSWORD
-      secretKey: YANDEX_SPRINT_11_TRANSFER_POSTGRES_DB_USER_PASSWORD
-    - name: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
-      secretKey: YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+    - name: YANDEX_SPRINT_12_TRANSFER_POSTGRES_DB_USER_PASSWORD
+      secretKey: YANDEX_SPRINT_12_TRANSFER_POSTGRES_DB_USER_PASSWORD
+    - name: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
+      secretKey: YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET
   probes:
     startupPath: /actuator/health/liveness
     readinessPath: /actuator/health/readiness

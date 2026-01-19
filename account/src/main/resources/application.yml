@@ -2,9 +2,9 @@ spring:
   application:
     name: account
   r2dbc:
-    url: r2dbc:postgresql://yandex-sprint-11-account-postgres:${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_PORT}/${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_NAME}
-    username: ${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_NAME}
-    password: ${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_PASSWORD}
+    url: r2dbc:postgresql://yandex-sprint-12-account-postgres:${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_PORT}/${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_NAME}
+    username: ${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_NAME}
+    password: ${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_PASSWORD}
     pool:
       enabled: true                               # Включение пула соединений
       initial-size: 10                            # Начальное количество соединений в пуле
@@ -14,9 +14,9 @@ spring:
       validation-query: SELECT 1                  # SQL-запрос для проверки работоспособности соединения
   liquibase:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://yandex-sprint-11-account-postgres:${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_PORT}/${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_NAME}
-    user: ${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_NAME}
-    password: ${YANDEX_SPRINT_11_ACCOUNT_POSTGRES_DB_USER_PASSWORD}
+    url: jdbc:postgresql://yandex-sprint-12-account-postgres:${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_PORT}/${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_NAME}
+    user: ${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_NAME}
+    password: ${YANDEX_SPRINT_12_ACCOUNT_POSTGRES_DB_USER_PASSWORD}
     contexts: default
   jpa:
     open-in-view: false
@@ -28,20 +28,20 @@ spring:
         registration:
           bank-services-cc:
             provider: keycloak
-            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_ID}
-            client-secret: ${YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET}
+            client-id: ${YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_ID}
+            client-secret: ${YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET}
             authorization-grant-type: client_credentials
           user-manager-cc:
             provider: keycloak
-            client-id: ${YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_ID}
-            client-secret: ${YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET}
+            client-id: ${YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_ID}
+            client-secret: ${YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET}
             authorization-grant-type: client_credentials
         provider:
           keycloak:
-            token-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/token
+            token-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}/protocol/openid-connect/token
       resourceserver:
         jwt:
-          jwk-set-uri: http://yandex-sprint-11-keycloak:8080/realms/${YANDEX_SPRINT_11_KEYCLOAK_REALM}/protocol/openid-connect/certs
+          jwk-set-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}/protocol/openid-connect/certs
   kafka:
     bootstrap-servers: bank-dev-kafka:9092
     producer:
@@ -59,8 +59,8 @@ spring:
 
 clients:
   keycloak:
-    url: "http://yandex-sprint-11-keycloak:8080"
-    realm: ${YANDEX_SPRINT_11_KEYCLOAK_REALM}
+    url: "http://yandex-sprint-12-keycloak:8080"
+    realm: ${YANDEX_SPRINT_12_KEYCLOAK_REALM}
 
 application:
   scheduling:

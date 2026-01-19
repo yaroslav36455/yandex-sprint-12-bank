@@ -71,5 +71,5 @@ logging:
 
 clients:
   keycloak:
-    url: "http://yandex-sprint-11-keycloak:8080"
+    url: "http://yandex-sprint-12-keycloak:8080"
     realm: "test-realm"

@@ -18,21 +18,21 @@
 * сервиса уведомлений (Notifications).
 
 #### Приложение работает в Docker контейнерах следующих образов
-* yandex-sprint-11-gateway
-* yandex-sprint-11-keycloak
-* yandex-sprint-11-kafka
-* yandex-sprint-11-account
-* yandex-sprint-11-blocker
-* yandex-sprint-11-cash
-* yandex-sprint-11-exchange
-* yandex-sprint-11-exchange-generator
-* yandex-sprint-11-front-ui
-* yandex-sprint-11-notification
-* yandex-sprint-11-transfer
-* yandex-sprint-11-account-postgres
-* yandex-sprint-11-transfer-postgres
-* yandex-sprint-11-cash-postgres
-* yandex-sprint-11-exchange-postgres
+* yandex-sprint-12-gateway
+* yandex-sprint-12-keycloak
+* yandex-sprint-12-kafka
+* yandex-sprint-12-account
+* yandex-sprint-12-blocker
+* yandex-sprint-12-cash
+* yandex-sprint-12-exchange
+* yandex-sprint-12-exchange-generator
+* yandex-sprint-12-front-ui
+* yandex-sprint-12-notification
+* yandex-sprint-12-transfer
+* yandex-sprint-12-account-postgres
+* yandex-sprint-12-transfer-postgres
+* yandex-sprint-12-cash-postgres
+* yandex-sprint-12-exchange-postgres
 
 ## Требования
 * Docker 28.2.x
@@ -65,7 +65,7 @@ sudo sh -c "echo \"$(minikube ip) gateway.local keycloak.local\" >> /etc/hosts"
 * Standard flow = ON
 * Service accounts roles = ON
 * Создать Client Scope с именем `internal_call`, указав ему в настройках `Include in token scope=ON` и добавить его этому клиенту
-* Установить секретный ключ в переменную окружения `YANDEX_SPRINT_11_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET`.
+* Установить секретный ключ в переменную окружения `YANDEX_SPRINT_12_KEYCLOAK_INTERNAL_CALL_CLIENT_SECRET`.
 
 #### 2. Клиент для создания и управления пользователями (технический токен)
 * Client ID = user-management-client-id
@@ -73,7 +73,7 @@ sudo sh -c "echo \"$(minikube ip) gateway.local keycloak.local\" >> /etc/hosts"
 * Standard flow = ON
 * Service accounts roles = ON
 * Добавить роли в `Service accounts roles` с названиями `manage-users`, `view-users`, `query-users`
-* Установить секретный ключ в переменную окружения `YANDEX_SPRINT_11_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET`.
+* Установить секретный ключ в переменную окружения `YANDEX_SPRINT_12_KEYCLOAK_USER_MANAGEMENT_CLIENT_SECRET`.
 
 #### 3. Пользовательский клиент
 * Client ID = user-client-id

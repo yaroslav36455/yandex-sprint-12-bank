@@ -12,6 +12,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: yandex-sprint-11-keycloak
+                name: yandex-sprint-12-keycloak
                 port:
                   number: 8080

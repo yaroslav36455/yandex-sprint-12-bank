@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-common
 data:
-  YANDEX_SPRINT_11_KEYCLOAK_REALM: {{ .Values.global.keycloak.realm | quote }}
-  YANDEX_SPRINT_11_KEYCLOAK_HOSTNAME: {{ .Values.global.keycloak.internalUrl | quote }}
-  YANDEX_SPRINT_11_KEYCLOAK_PORT: {{ .Values.global.keycloak.port | quote }}
+  YANDEX_SPRINT_12_KEYCLOAK_REALM: {{ .Values.global.keycloak.realm | quote }}
+  YANDEX_SPRINT_12_KEYCLOAK_HOSTNAME: {{ .Values.global.keycloak.internalUrl | quote }}
+  YANDEX_SPRINT_12_KEYCLOAK_PORT: {{ .Values.global.keycloak.port | quote }}

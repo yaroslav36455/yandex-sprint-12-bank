@@ -6,5 +6,5 @@ pluginManagement {
         id 'org.springframework.cloud.contract' version '4.1.6'
     }
 }
-rootProject.name = "yandex-sprint-11-bank"
+rootProject.name = "yandex-sprint-12-bank"
 include ':front-ui', ':account', ':blocker', ':cash', ':exchange', ':exchange-generator', ':transfer', ':notification', ':gateway'

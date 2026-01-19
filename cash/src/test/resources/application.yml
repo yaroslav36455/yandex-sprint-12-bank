@@ -58,6 +58,6 @@ application:
 
 clients:
   blocker-service:
-    url: "http://yandex-sprint-11-blocker:8080"
+    url: "http://yandex-sprint-12-blocker:8080"
   account-service:
-    url: "http://yandex-sprint-11-account:8080"
+    url: "http://yandex-sprint-12-account:8080"
