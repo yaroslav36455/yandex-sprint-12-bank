@@ -8,6 +8,8 @@ ext {
     springCloudVersion = '2025.0.0'
     lombokVersion = '1.18.34'
     mapstructVersion = '1.6.3'
+    micrometerBridgeVersion = '1.6.2'
+    zipkinReporterVersion = '3.4.3'
 }
 
 subprojects {
@@ -46,6 +48,8 @@ subprojects {
         testImplementation 'org.springframework.security:spring-security-test'
         testImplementation 'io.projectreactor:reactor-test'
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation "io.micrometer:micrometer-tracing-bridge-brave:${micrometerBridgeVersion}"
+        implementation "io.zipkin.reporter2:zipkin-reporter-brave:${zipkinReporterVersion}"
     }
 
     configurations.configureEach {

@@ -76,4 +76,8 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     version: "32.4.3"
     alias: kafka
+  - name: zipkin
+    repository: https://zipkin.io/zipkin-helm
+    version: "0.4.0"
+    alias: zipkin
 

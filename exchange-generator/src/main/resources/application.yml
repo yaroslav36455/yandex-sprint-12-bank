@@ -13,6 +13,21 @@ spring:
         provider:
           keycloak:
             token-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}/protocol/openid-connect/token
+  zipkin:
+    base-url: ${YANDEX_SPRINT_12_ZIPKIN_URL}
+    sleuth:
+      sampler:
+        probability: 1.0
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: ${YANDEX_SPRINT_12_ZIPKIN_URL}/api/v2/spans
 
 clients:
   exchange-service:

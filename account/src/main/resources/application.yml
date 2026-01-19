@@ -55,7 +55,11 @@ spring:
         request.timeout.ms: 30000
         spring.json.add.type.headers: false
         max.block.ms: 10000
-
+  zipkin:
+    base-url: ${YANDEX_SPRINT_12_ZIPKIN_URL}
+    sleuth:
+      sampler:
+        probability: 1.0
 
 clients:
   keycloak:
@@ -81,3 +85,11 @@ management:
       probes:
         enabled: true   # даёт /actuator/health/readiness и /liveness
       show-details: when_authorized
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      type: b3
+  zipkin:
+    tracing:
+      endpoint: ${YANDEX_SPRINT_12_ZIPKIN_URL}/api/v2/spans
