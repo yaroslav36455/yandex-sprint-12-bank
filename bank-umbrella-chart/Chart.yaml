@@ -80,4 +80,12 @@ dependencies:
     repository: https://zipkin.io/zipkin-helm
     version: "0.4.0"
     alias: zipkin
+  - name: prometheus
+    repository: https://prometheus-community.github.io/helm-charts
+    version: "25.27.0"
+    alias: prometheus
+  - name: grafana
+    repository: https://grafana.github.io/helm-charts
+    version: "7.3.11"
+    alias: grafana
 

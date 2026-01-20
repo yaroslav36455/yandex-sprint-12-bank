@@ -9,7 +9,8 @@ import by.tyv.account.model.entity.AccountEntity;
 import by.tyv.account.repository.AccountRepository;
 import by.tyv.account.service.AccountService;
 import by.tyv.account.service.NotificationService;
-import lombok.RequiredArgsConstructor;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Flux;
@@ -19,12 +20,30 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final TransactionalOperator transactionalOperator;
     private final NotificationService notificationService;
     private final AccountMapper accountMapper;
+    private final Counter cashOperationFailedAmount;
+    private final Counter transferOperationFailedAmount;
+
+    public AccountServiceImpl(AccountRepository accountRepository,
+                              TransactionalOperator transactionalOperator,
+                              NotificationService notificationService,
+                              AccountMapper accountMapper,
+                              MeterRegistry registry) {
+        this.accountRepository = accountRepository;
+        this.transactionalOperator = transactionalOperator;
+        this.notificationService = notificationService;
+        this.accountMapper = accountMapper;
+        this.cashOperationFailedAmount = Counter.builder("bank_cash_failed_total")
+                .description("Количество неуспешных попыток операций с наличными")
+                .register(registry);
+        this.transferOperationFailedAmount = Counter.builder("bank_transfer_failed_total")
+                .description("Количество неуспешных попыток перевода денег")
+                .register(registry);
+    }
 
     @Override
     public Mono<Void> cashOperation(OperationCash operationCash) {
@@ -41,6 +60,7 @@ public class AccountServiceImpl implements AccountService {
                             }
                             return accountRepository.save(accountEntity.setBalance(newBalance));
                         })
+                .doOnError(IllegalStateException.class, throwable -> cashOperationFailedAmount.increment())
                 .as(transactionalOperator::transactional)
                 .then(notificationService.saveNotification(operationCash.getLogin(),
                         operationCash.getAction() == CashAction.GET
@@ -78,7 +98,9 @@ public class AccountServiceImpl implements AccountService {
         Mono<Void> n2 = notificationService.saveNotification(operationTransfer.getTargetLogin(), "Вы получили на счёт от %s сумму %s %s"
                 .formatted(operationTransfer.getSourceLogin(), operationTransfer.getTargetAmount(), operationTransfer.getTargetCurrency()));
 
-        return tx.then(Mono.when(n1, n2));
+        return tx
+                .doOnError(IllegalStateException.class, throwable -> transferOperationFailedAmount.increment())
+                .then(Mono.when(n1, n2));
     }
 
     @Override

@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/oauth2/**","/login/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/signup", "/api/rates", "/actuator/health/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/signup", "/api/rates", "/actuator/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/signup").permitAll()
                         .anyExchange().authenticated())
                 .oauth2Login(Customizer.withDefaults())

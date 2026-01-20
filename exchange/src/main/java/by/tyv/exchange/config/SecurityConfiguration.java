@@ -16,7 +16,7 @@ public class SecurityConfiguration {
         return httpSecurity
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers(HttpMethod.GET, "/actuator/health/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .pathMatchers("/api/rates").permitAll()
                         .anyExchange().hasAuthority("SCOPE_internal_call"))
                 .oauth2ResourceServer(spec -> spec.jwt(Customizer.withDefaults()))

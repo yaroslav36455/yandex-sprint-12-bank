@@ -71,6 +71,91 @@ zipkin:
     type: ClusterIP
     port: 9411
 
+prometheus:
+  server:
+    global:
+      scrape_interval: 30s
+      evaluation_interval: 30s
+      scrape_timeout: 10s
+  serverFiles:
+    prometheus.yml:
+      scrape_configs:
+        - job_name: prometheus
+          static_configs:
+            - targets: ['localhost:9090']
+        - job_name: account
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: ['yandex-sprint-12-account:8080']
+              labels:
+                app: account
+        - job_name: blocker
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-blocker:8080' ]
+              labels:
+                app: blocker
+        - job_name: cash
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-cash:8080' ]
+              labels:
+                app: cash
+        - job_name: exchange
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-exchange:8080' ]
+              labels:
+                app: exchange
+        - job_name: exchange-generator
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-exchange-generator:8080' ]
+              labels:
+                app: exchange-generator
+        - job_name: front-ui
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-front-ui:8080' ]
+              labels:
+                app: front-ui
+        - job_name: gateway
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-gateway:9090' ]
+              labels:
+                app: gateway
+        - job_name: notification
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: [ 'yandex-sprint-12-notification:8080' ]
+              labels:
+                app: notification
+        - job_name: transfer
+          metrics_path: /actuator/prometheus
+          static_configs:
+            - targets: ['yandex-sprint-12-transfer:8080']
+              labels:
+                app: transfer
+
+grafana:
+  adminPassword: admin
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://bank-dev-prometheus-server
+          isDefault: true
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+      folder: /var/lib/grafana/dashboards
+
 keycloak:
   postgresql:
     enabled: true

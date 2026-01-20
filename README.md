@@ -52,7 +52,7 @@ kubectl create configmap -n dev keycloak-import --from-file=./keycloak/import
 helm dependency build ./bank-umbrella-chart
 ./build.sh
 helm install bank-dev ./bank-umbrella-chart -f ./bank-umbrella-chart/dev-values.yaml -n dev
-sudo sh -c "echo \"$(minikube ip) gateway.local keycloak.local zipkin.local\" >> /etc/hosts"
+sudo sh -c "echo \"$(minikube ip) gateway.local keycloak.local zipkin.local grafana.local\" >> /etc/hosts"
 ```
 
 ##### Для обращения в приложение следует использовать url http://gateway.local

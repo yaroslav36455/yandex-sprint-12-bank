@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: {{ .Release.Namespace }}
+  labels:
+    grafana_dashboard: "1"
+data:
+  spring-boot-apm.json: |
+{{ .Files.Get "dashboards/spring-boot-apm.json" | indent 4 }}
+  jvm.json: |
+{{ .Files.Get "dashboards/jvm.json" | indent 4 }}
+  business.json: |
+{{ .Files.Get "dashboards/business.json" | indent 4 }}

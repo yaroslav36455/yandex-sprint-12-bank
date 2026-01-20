@@ -1,0 +1,40 @@
+{
+  "uid": "business-metrics",
+  "title": "Business Metrics",
+  "schemaVersion": 38,
+  "version": 1,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Ошибки операций с наличными (в минуту)",
+      "targets": [
+        { "refId": "A", "expr": "sum(rate(bank_cash_failed_total[5m])) * 60" }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "timeseries",
+      "title": "Ошибки переводов (в минуту)",
+      "targets": [
+        { "refId": "A", "expr": "sum(rate(bank_transfer_failed_total[5m])) * 60" }
+      ],
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+    },
+    {
+      "type": "stat",
+      "title": "Всего ошибок операций с наличными",
+      "targets": [
+        { "refId": "A", "expr": "sum(bank_cash_failed_total)" }
+      ],
+      "gridPos": { "x": 0, "y": 8, "w": 12, "h": 6 }
+    },
+    {
+      "type": "stat",
+      "title": "Всего ошибок переводов",
+      "targets": [
+        { "refId": "A", "expr": "sum(bank_transfer_failed_total)" }
+      ],
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 6 }
+    }
+  ]
+}
