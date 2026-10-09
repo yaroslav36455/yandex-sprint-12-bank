@@ -1,11 +1,11 @@
 package by.tyv.account.service.impl;
 
 import by.tyv.account.enums.CashAction;
+import by.tyv.account.enums.CurrencyCode;
 import by.tyv.account.mapper.AccountMapper;
 import by.tyv.account.model.bo.AccountInfo;
 import by.tyv.account.model.bo.OperationCash;
 import by.tyv.account.model.bo.OperationTransfer;
-import by.tyv.account.model.entity.AccountEntity;
 import by.tyv.account.repository.AccountRepository;
 import by.tyv.account.service.AccountService;
 import by.tyv.account.service.NotificationService;
@@ -48,7 +48,8 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Mono<Void> cashOperation(OperationCash operationCash) {
         return accountRepository.findByLoginAndCurrency(operationCash.getLogin(), operationCash.getCurrency())
-                        .switchIfEmpty(Mono.error(new IllegalArgumentException("Аккаунт не найден")))
+                        .switchIfEmpty(Mono.error(new IllegalArgumentException("Аккаунт %s %s не найден"
+                                .formatted(operationCash.getLogin(), operationCash.getCurrency()))))
                         .flatMap(accountEntity -> {
                             BigDecimal newBalance = operationCash.getAction() == CashAction.GET
                                     ? accountEntity.getBalance().subtract(operationCash.getAmount())
@@ -70,26 +71,34 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<Void> transferOperation(OperationTransfer operationTransfer) {
-        Flux<AccountEntity> tx =  Mono.zip(
-                        accountRepository.findByLoginAndCurrency(operationTransfer.getSourceLogin(), operationTransfer.getSourceCurrency()),
-                        accountRepository.findByLoginAndCurrency(operationTransfer.getTargetLogin(), operationTransfer.getTargetCurrency()))
-                .switchIfEmpty(Mono.error(new IllegalArgumentException("Аккаунт не найден")))
-                .flatMapMany(tuple -> {
-                    var source = tuple.getT1();
-                    var target = tuple.getT2();
+        boolean isSourcePrecedes = operationTransfer.getSourceLogin().compareTo(operationTransfer.getTargetLogin()) < 0;
+        String firstLogin = isSourcePrecedes ?  operationTransfer.getSourceLogin() : operationTransfer.getTargetLogin();
+        CurrencyCode firstCurrency = isSourcePrecedes ? operationTransfer.getSourceCurrency() : operationTransfer.getTargetCurrency();
+        String secondLogin = isSourcePrecedes ?  operationTransfer.getTargetLogin() : operationTransfer.getSourceLogin();
+        CurrencyCode secondCurrency = isSourcePrecedes ? operationTransfer.getTargetCurrency() : operationTransfer.getSourceCurrency();
 
-                    var newSource = source.getBalance().subtract(operationTransfer.getSourceAmount());
-                    if (newSource.signum() < 0) {
-                        return notificationService.saveNotification(operationTransfer.getSourceLogin(),
-                                        "Недостаточно денег на счету")
-                                .then(Mono.error(new IllegalStateException("Недостаточно денег на счету")));
-                    }
+        Mono<Void> tx = accountRepository.findByLoginAndCurrency(firstLogin, firstCurrency)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Аккаунт %s %s не найден".formatted(firstLogin, firstCurrency.toString()))))
+                .flatMap(first -> accountRepository.findByLoginAndCurrency(secondLogin, secondCurrency)
+                                .switchIfEmpty(Mono.error(new IllegalArgumentException("Аккаунт %s %s не найден".formatted(secondLogin, secondCurrency.toString()))))
+                                .flatMap(second -> {
+                                    var source = isSourcePrecedes ? first : second;
+                                    var target = isSourcePrecedes ? second : first;
 
-                    source.setBalance(newSource);
-                    target.setBalance(target.getBalance().add(operationTransfer.getTargetAmount()));
+                                    var newSource = source.getBalance().subtract(operationTransfer.getSourceAmount());
+                                    if (newSource.signum() < 0) {
+                                        return notificationService.saveNotification(operationTransfer.getSourceLogin(),
+                                                        "Недостаточно денег на счету")
+                                                .then(Mono.error(new IllegalStateException("Недостаточно денег на счету")));
+                                    }
 
-                    return accountRepository.saveAll(List.of(source, target));
-                })
+                                    source.setBalance(newSource);
+                                    target.setBalance(target.getBalance().add(operationTransfer.getTargetAmount()));
+
+                                    return accountRepository.saveAll(List.of(source, target))
+                                            .then();
+                                })
+                )
                 .as(transactionalOperator::transactional);
 
         Mono<Void> n1 = notificationService.saveNotification(operationTransfer.getSourceLogin(), "Вы отправили на счёт %s сумму %s %s"

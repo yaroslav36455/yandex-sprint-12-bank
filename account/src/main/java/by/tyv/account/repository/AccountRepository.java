@@ -13,7 +13,8 @@ public interface AccountRepository extends ReactiveCrudRepository<AccountEntity,
     @Query("""
               select a.id, a.created_at, a.user_id, a.balance, a.currency
               from account a join users u on u.id=a.user_id
-              where u.login=:sourceLogin and a.currency=:currencyCode""")
+              where u.login=:sourceLogin and a.currency=:currencyCode
+              for update of a""")
     Mono<AccountEntity> findByLoginAndCurrency(@Param("sourceLogin") String sourceLogin,
                                                @Param("currencyCode") CurrencyCode currencyCode);
 

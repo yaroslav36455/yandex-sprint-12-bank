@@ -36,7 +36,7 @@
 * yandex-sprint-12-exchange-postgres
 
 ## Требования
-* Docker 28.2.x
+* Docker 29.9.x
 * Minikube v1.37.0
 * Helm v4.0.1
 
