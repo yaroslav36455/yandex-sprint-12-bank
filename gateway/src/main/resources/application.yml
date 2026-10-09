@@ -11,18 +11,23 @@ spring:
               predicates:
                 - Method=GET
                 - Path=/, /main, /signup, /logout
+              filters:
+                - TokenRelay
             - id: yandex-sprint-12-front-ui-post-id
               uri: http://yandex-sprint-12-front-ui:8080
               predicates:
                 - Method=POST
                 - Path=/signup,/user/**
+              filters:
+                - TokenRelay
             - id: yandex-sprint-12-exchange-api-rates
               uri: http://yandex-sprint-12-exchange:8080
               predicates:
                 - Method=GET
                 - Path=/api/rates
+              filters:
+                - RemoveResponseHeader=Authorization
           default-filters:
-            - TokenRelay
             - RemoveResponseHeader=Set-Cookie
   security:
     oauth2:
