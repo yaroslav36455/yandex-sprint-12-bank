@@ -28,7 +28,7 @@ public class SecurityConfiguration {
     public SecurityWebFilterChain webFilterChain(ServerHttpSecurity httpSecurity) {
         return httpSecurity.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers(HttpMethod.GET, "/", "/signup", "/actuator/**").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/", "/signup", "/actuator/**", "/favicon.svg").permitAll()
                         .pathMatchers(HttpMethod.POST, "/signup").permitAll()
                         .pathMatchers(HttpMethod.GET, "/main").hasAuthority("SCOPE_user")
                         .pathMatchers(HttpMethod.POST, "/user/**").hasAuthority("SCOPE_user")

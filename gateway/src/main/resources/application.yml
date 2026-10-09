@@ -20,6 +20,13 @@ spring:
                 - Path=/signup,/user/**
               filters:
                 - TokenRelay
+            - id: yandex-sprint-12-front-ui-get-icon
+              uri: http://yandex-sprint-12-front-ui:8080
+              predicates:
+                - Method=GET
+                - Path=/favicon.svg
+              filters:
+                - RemoveRequestHeader=Authorization
             - id: yandex-sprint-12-exchange-api-rates
               uri: http://yandex-sprint-12-exchange:8080
               predicates:
