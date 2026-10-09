@@ -198,7 +198,7 @@ keycloak:
     - name: KC_PROXY_HEADERS
       value: "xforwarded"
     - name: KC_HOSTNAME
-      value: "keycloak.local"
+      value: "http://keycloak.local"
 
   # ===== IMPORT REALM =====
   extraVolumes:
