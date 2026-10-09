@@ -27,6 +27,11 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Mono<Void> saveNotificationNewTransaction(String login, String message) {
+        return saveNotification(login, message);
+    }
+
+    @Override
     public Mono<Void> saveNotification(String login, String message) {
         DeferredNotificationEntity newNotification = new DeferredNotificationEntity();
         newNotification.setLogin(login);

@@ -55,18 +55,18 @@ public class AccountServiceImpl implements AccountService {
                                     ? accountEntity.getBalance().subtract(operationCash.getAmount())
                                     : accountEntity.getBalance().add(operationCash.getAmount());
                             if (newBalance.signum() < 0) {
-                                return notificationService.saveNotification(operationCash.getLogin(),
+                                return notificationService.saveNotificationNewTransaction(operationCash.getLogin(),
                                                 "Недостаточно денег на счету")
                                         .then(Mono.error(new IllegalStateException("Недостаточно денег на счету")));
                             }
                             return accountRepository.save(accountEntity.setBalance(newBalance));
                         })
                 .doOnError(IllegalStateException.class, throwable -> cashOperationFailedAmount.increment())
-                .as(transactionalOperator::transactional)
                 .then(notificationService.saveNotification(operationCash.getLogin(),
                         operationCash.getAction() == CashAction.GET
                                 ? "Вы сняли деньги со счёта в размере %s %s".formatted(operationCash.getAmount(), operationCash.getCurrency())
-                                : "Вы положили деньги на счёт в размере %s %s".formatted(operationCash.getAmount(), operationCash.getCurrency())));
+                                : "Вы положили деньги на счёт в размере %s %s".formatted(operationCash.getAmount(), operationCash.getCurrency())))
+                .as(transactionalOperator::transactional);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class AccountServiceImpl implements AccountService {
 
                                     var newSource = source.getBalance().subtract(operationTransfer.getSourceAmount());
                                     if (newSource.signum() < 0) {
-                                        return notificationService.saveNotification(operationTransfer.getSourceLogin(),
+                                        return notificationService.saveNotificationNewTransaction(operationTransfer.getSourceLogin(),
                                                         "Недостаточно денег на счету")
                                                 .then(Mono.error(new IllegalStateException("Недостаточно денег на счету")));
                                     }
@@ -98,8 +98,7 @@ public class AccountServiceImpl implements AccountService {
                                     return accountRepository.saveAll(List.of(source, target))
                                             .then();
                                 })
-                )
-                .as(transactionalOperator::transactional);
+                );
 
         Mono<Void> n1 = notificationService.saveNotification(operationTransfer.getSourceLogin(), "Вы отправили на счёт %s сумму %s %s"
                 .formatted(operationTransfer.getTargetLogin(), operationTransfer.getSourceAmount(), operationTransfer.getSourceCurrency()));
@@ -109,7 +108,9 @@ public class AccountServiceImpl implements AccountService {
 
         return tx
                 .doOnError(IllegalStateException.class, throwable -> transferOperationFailedAmount.increment())
-                .then(Mono.when(n1, n2));
+                .then(n1)
+                .then(n2)
+                .as(transactionalOperator::transactional);
     }
 
     @Override
