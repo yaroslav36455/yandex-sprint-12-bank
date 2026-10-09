@@ -26,7 +26,7 @@ spring:
                 - Method=GET
                 - Path=/api/rates
               filters:
-                - RemoveResponseHeader=Authorization
+                - RemoveRequestHeader=Authorization
           default-filters:
             - RemoveResponseHeader=Set-Cookie
   security:
@@ -51,7 +51,8 @@ spring:
             jwk-set-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}/protocol/openid-connect/certs
       resourceserver:
         jwt:
-          issuer-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}
+          issuer-uri: http://keycloak.local/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}
+          jwk-set-uri: http://yandex-sprint-12-keycloak:8080/realms/${YANDEX_SPRINT_12_KEYCLOAK_REALM}/protocol/openid-connect/certs
   zipkin:
     base-url: ${YANDEX_SPRINT_12_ZIPKIN_URL}
     sleuth:
