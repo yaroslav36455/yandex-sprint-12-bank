@@ -17,7 +17,8 @@ CREATE TABLE IF NOT EXISTS account
     balance    NUMERIC(15,2) NOT NULL,
     currency   VARCHAR(20)   NOT NULL,
     UNIQUE (user_id, currency),
-    FOREIGN KEY (user_id) REFERENCES users (id)
+    FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT account_balance_non_negative CHECK (balance >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS deferred_notification
