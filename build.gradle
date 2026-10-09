@@ -10,6 +10,7 @@ ext {
     mapstructVersion = '1.6.3'
     micrometerBridgeVersion = '1.6.2'
     zipkinReporterVersion = '3.4.3'
+    testcontainersVersion = '1.21.4'
 }
 
 subprojects {
@@ -29,6 +30,8 @@ subprojects {
     repositories {
         mavenCentral()
     }
+
+    ext['testcontainers.version'] = testcontainersVersion
 
     dependencyManagement {
         imports {
